@@ -1053,4 +1053,3 @@ static bool8 EnableAutoRun(void)
     
     return TRUE;
 }
-
