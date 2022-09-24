@@ -83,12 +83,13 @@ bool8 TryGetObjectEventIdByLocalIdAndMap(u8 localId, u8 mapNum, u8 mapGroupId, u
 u8 GetObjectEventIdByXY(s16 x, s16 y);
 void SetObjectEventDirection(struct ObjectEvent *objectEvent, u8 direction);
 u8 GetFirstInactiveObjectEventId(void);
-void RemoveObjectEventByLocalIdAndMap(u8 localId, u8 mapNum, u8 mapGroup);
-void LoadPlayerObjectReflectionPalette(u16 tag, u8 slot);
-void LoadSpecialObjectReflectionPalette(u16 tag, u8 slot);
-void TryMoveObjectEventToMapCoords(u8 localId, u8 mapNum, u8 mapGroup, s16 x, s16 y);
-void PatchObjectPalette(u16 paletteTag, u8 paletteSlot);
-void SpawnObjectEventsOnReturnToField(s16 x, s16 y);
+void RemoveObjectEvent(struct ObjectEvent *objectEvent);
+void RemoveObjectEventByLocalIdAndMap(u8, u8, u8);
+void LoadPlayerObjectReflectionPalette(u16, u8);
+void LoadSpecialObjectReflectionPalette(u16, u8);
+void TryMoveObjectEventToMapCoords(u8, u8, u8, s16, s16);
+void PatchObjectPalette(u16, u8);
+void SpawnObjectEventsOnReturnToField(s16, s16);
 void OverrideSecretBaseDecorationSpriteScript(u8 localId, u8 mapNum, u8 mapGroup, u8 decorCat);
 void GetMapCoordsFromSpritePos(s16 x, s16 y, s16 *destX, s16 *destY);
 u8 GetFaceDirectionAnimNum(u8 direction);
@@ -192,7 +193,9 @@ s16 GetFigure8YOffset(s16 idx);
 void CameraObjectReset2(void);
 u8 GetObjectEventBerryTreeId(u8 objectEventId);
 void SetBerryTreeJustPicked(u8 mapId, u8 mapNumber, u8 mapGroup);
-bool8 IsBerryTreeSparkling(u8 localId, u8 mapNum, u8 mapGroup);
+bool8 IsBerryTreeSparkling(u8, u8, u8);
+struct ObjectEventTemplate *GetObjectEventTemplateByLocalIdAndMap(u8 localId, u8 mapNum, u8 mapGroup);
+u8 TrySpawnObjectEventTemplate(struct ObjectEventTemplate *objectEventTemplate, u8 mapNum, u8 mapGroup, s16 cameraX, s16 cameraY);
 
 void MovementType_None(struct Sprite *);
 void MovementType_LookAround(struct Sprite *);
@@ -417,5 +420,13 @@ void SetVirtualObjectInvisibility(u8 virtualObjId, bool32 invisible);
 bool32 IsVirtualObjectInvisible(u8 virtualObjId);
 void SetVirtualObjectSpriteAnim(u8 virtualObjId, u8 animNum);
 bool32 IsVirtualObjectAnimating(u8 virtualObjId);
+u8 GetObjectEventIdByLocalId(u8 localId);
+
+// run slow
+u8 GetPlayerRunSlowMovementAction(u32);
+//sideways stairs
+u8 GetSidewaysStairsToRightDirection(s16, s16, u8);
+u8 GetSidewaysStairsToLeftDirection(s16, s16, u8);
+u8 GetSidewaysStairsCollision(struct ObjectEvent *objectEvent, u8 dir, u8 currentBehavior, u8 nextBehavior, u8 collision);
 
 #endif //GUARD_EVENT_OBJECT_MOVEMENT_H
