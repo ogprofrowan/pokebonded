@@ -1667,22 +1667,22 @@ static void FieldTask_ReturnToPcMenu(void)
 {
     u8 taskId;
     MainCallback vblankCb = gMain.vblankCallback;
-
-    SetVBlankCallback(NULL);
-    if (!FlagGet(DEBUG_FLAG_PC_FROM_DEBUG_MENU))
-    {
-        taskId = CreateTask(Task_PCMainMenu, 80);
-        gTasks[taskId].tState = 0;
-        gTasks[taskId].tSelectedOption = sPreviousBoxOption;
-        Task_PCMainMenu(taskId);
-    }
-    else
-    {
-        FlagClear(DEBUG_FLAG_PC_FROM_DEBUG_MENU);
-        ScriptContext_Enable();
-    }
-    SetVBlankCallback(vblankCb);
-    FadeInFromBlack();
+	if (FlagGet(FLAG_POKEMONPCMENU)==TRUE)
+	{
+		SetVBlankCallback(NULL);
+		taskId = CreateTask(Task_PCMainMenu, 80);
+		gTasks[taskId].tState = 0;
+		gTasks[taskId].tSelectedOption = sPreviousBoxOption;
+		Task_PCMainMenu(taskId);
+		SetVBlankCallback(vblankCb);
+		FadeInFromBlack();
+	}
+	else {
+		//ScriptContext_Disable();
+		//EnableBothScriptContexts();
+		SetVBlankCallback(CB2_ReturnToField);
+		FadeInFromBlack();
+	}
 }
 
 #undef tState
